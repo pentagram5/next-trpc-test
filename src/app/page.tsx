@@ -4,11 +4,12 @@ import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import styles from "./index.module.css";
+import {getRouter} from "~/server/api/routers/getCustom";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
+  const newCustom =  await api.get.hello();
   const session = await getServerAuthSession();
-
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -41,7 +42,7 @@ export default async function Home() {
         </div>
         <div className={styles.showcaseContainer}>
           <p className={styles.showcaseText}>
-            {hello ? hello.greeting : "Loading tRPC query..."}
+            {hello ? hello.greeting + newCustom.greeting : "Loading tRPC query..."}
           </p>
 
           <div className={styles.authContainer}>
